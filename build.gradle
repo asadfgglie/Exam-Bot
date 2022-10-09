@@ -1,0 +1,55 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.com.github.johnrengelman:shadow:7.1.2"
+    }
+}
+
+apply plugin: "com.github.johnrengelman.shadow"
+apply plugin: 'java'
+
+group 'ckcsc.asadfgglie'
+version '1.0'
+
+def AppDir = layout.getProjectDirectory().dir("App")
+def resourceDir = layout.getProjectDirectory().dir("resource")
+def AppVersionLibsDir = layout.getProjectDirectory().dir("AppVersionLibs")
+
+repositories {
+    mavenCentral()
+
+    maven {
+        url 'https://m2.dv8tion.net/releases'
+    }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+    // https://mvnrepository.com/artifact/org.assertj/assertj-core
+    testImplementation 'org.assertj:assertj-core:3.23.1'
+
+    // https://mvnrepository.com/artifact/net.dv8tion/JDA
+    implementation 'ch.qos.logback:logback-classic:1.4.3'
+    implementation group: 'net.dv8tion', name: 'JDA', version: '5.0.0-alpha.3'
+    // https://mvnrepository.com/artifact/org.json/json
+    implementation group: 'org.json', name: 'json', version: '20211205'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    manifestContentCharset "utf-8"
+    metadataCharset 'utf-8'
+
+    manifest.attributes(
+        "Main-Class": "ckcsc/asadfgglie/main/Main",
+        "Implementation-Version": project.version
+    )
+}
